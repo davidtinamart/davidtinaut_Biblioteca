@@ -1,0 +1,35 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+        layout:decorate="~{layout}">
+    <head>
+        <title>[[#{prestamo.add.headline}]]</title>
+        <style>
+            body {
+                background-image: url('https://images.unsplash.com/photo-1516979187457-637abb4f9353?q=80&w=1000&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxleHBsb3JlLWZlZWR8MTZ8fHxlbnwwfHx8fHw%3D');
+                background-size: cover;
+                background-position: center;
+                color: black;
+                font-family: 'Mi Tipografia', sans-serif;
+            }
+        </style>
+    </head>
+    <body>
+        <div layout:fragment="content">
+            <div class="d-flex flex-wrap mb-4">
+                <h1 class="flex-grow-1">[[#{prestamo.add.headline}]]</h1>
+                <div>
+                    <a th:href="@{/prestamos}" class="btn btn-secondary">[[#{prestamo.add.back}]]</a>
+                </div>
+            </div>
+            <div th:replace="~{fragments/forms::globalErrors('prestamo')}" />
+            <form th:action="${requestUri}" method="post">
+                <div th:replace="~{fragments/forms::inputRow(object='prestamo', field='fechaPrestamo', inputClass='js-datepicker')}" />
+                <div th:replace="~{fragments/forms::inputRow(object='prestamo', field='fechaDevolucion', inputClass='js-datepicker')}" />
+                <div th:replace="~{fragments/forms::inputRow(object='prestamo', field='libro', type='select')}" />
+                <div th:replace="~{fragments/forms::inputRow(object='prestamo', field='lector', type='select')}" />
+                <div th:replace="~{fragments/forms::inputRow(object='prestamo', field='bibliotecario', type='select')}" />
+                <input type="submit" th:value="#{prestamo.add.headline}" class="btn btn-primary mt-4" />
+            </form>
+        </div>
+    </body>
+</html>

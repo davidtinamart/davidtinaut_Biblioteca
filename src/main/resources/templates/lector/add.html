@@ -1,0 +1,33 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+        layout:decorate="~{layout}">
+    <head>
+        <title>[[#{lector.add.headline}]]</title>
+        <style>
+            body {
+                background-image: url('https://images.unsplash.com/photo-1516979187457-637abb4f9353?q=80&w=1000&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxleHBsb3JlLWZlZWR8MTZ8fHxlbnwwfHx8fHw%3D');
+                background-size: cover;
+                background-position: center;
+                color: black;
+                font-family: 'Mi Tipografia', sans-serif;
+            }
+        </style>
+    </head>
+    <body>
+        <div layout:fragment="content">
+            <div class="d-flex flex-wrap mb-4">
+                <h1 class="flex-grow-1">[[#{lector.add.headline}]]</h1>
+                <div>
+                    <a th:href="@{/lectors}" class="btn btn-secondary">[[#{lector.add.back}]]</a>
+                </div>
+            </div>
+            <div th:replace="~{fragments/forms::globalErrors('lector')}" />
+            <form th:action="${requestUri}" method="post">
+                <div th:replace="~{fragments/forms::inputRow(object='lector', field='nombre')}" />
+                <div th:replace="~{fragments/forms::inputRow(object='lector', field='apellido')}" />
+                <div th:replace="~{fragments/forms::inputRow(object='lector', field='dni')}" />
+                <input type="submit" th:value="#{lector.add.headline}" class="btn btn-primary mt-4" />
+            </form>
+        </div>
+    </body>
+</html>
