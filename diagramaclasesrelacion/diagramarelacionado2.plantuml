@@ -1,0 +1,449 @@
+@startuml
+
+!theme plain
+top to bottom direction
+skinparam linetype ortho
+
+class Biblioteca {
+  - id: Long
+  - nombre: String
+  - lastUpdated: OffsetDateTime
+  - dateCreated: OffsetDateTime
+  + getId(): Long
+  + getNombre(): String
+  + getDateCreated(): OffsetDateTime
+  + getLastUpdated(): OffsetDateTime
+  + setId(Long): void
+  + setNombre(String): void
+  + setDateCreated(OffsetDateTime): void
+  + setLastUpdated(OffsetDateTime): void
+}
+class Bibliotecario {
+  - prestamos: Set<Prestamo>
+  - nombre: String
+  - id: Long
+  - apellido: String
+  - dateCreated: OffsetDateTime
+  - lastUpdated: OffsetDateTime
+  - lector: Lector
+  - dni: String
+  - zona: String
+  + getLector(): Lector
+  + getId(): Long
+  + setDateCreated(OffsetDateTime): void
+  + getNombre(): String
+  + getApellido(): String
+  + getDni(): String
+  + getZona(): String
+  + setLastUpdated(OffsetDateTime): void
+  + getPrestamos(): Set<Prestamo>
+  + setLector(Lector): void
+  + setNombre(String): void
+  + setDni(String): void
+  + getDateCreated(): OffsetDateTime
+  + getLastUpdated(): OffsetDateTime
+  + setApellido(String): void
+  + setZona(String): void
+  + setPrestamos(Set<Prestamo>): void
+  + setId(Long): void
+}
+class BibliotecarioController {
+  - bibliotecarioService: BibliotecarioService
+  - lectorRepository: LectorRepository
+  + add(BibliotecarioDTO, BindingResult, RedirectAttributes): String
+  + delete(Long, RedirectAttributes): String
+  + edit(Long, Model): String
+  + add(BibliotecarioDTO): String
+  + list(Model): String
+  + edit(Long, BibliotecarioDTO, BindingResult, RedirectAttributes): String
+  + prepareContext(Model): void
+}
+class BibliotecarioDTO {
+  - dni: String
+  - nombre: String
+  - apellido: String
+  - lector: Long
+  - zona: String
+  - id: Long
+  + setId(Long): void
+  + getId(): Long
+  + getNombre(): String
+  + getApellido(): String
+  + getDni(): String
+  + getZona(): String
+  + getLector(): Long
+  + setNombre(String): void
+  + setLector(Long): void
+  + setApellido(String): void
+  + setDni(String): void
+  + setZona(String): void
+}
+interface BibliotecarioRepository << interface >> {
+  + findFirstByLector(Lector): Bibliotecario
+  + existsByLectorId(Long): boolean
+}
+class BibliotecarioResource {
+  - bibliotecarioService: BibliotecarioService
+  + getBibliotecario(Long): ResponseEntity<BibliotecarioDTO>
+  + createBibliotecario(BibliotecarioDTO): ResponseEntity<Long>
+  + deleteBibliotecario(Long): ResponseEntity<Void>
+  + updateBibliotecario(Long, BibliotecarioDTO): ResponseEntity<Long>
+  + getAllBibliotecarios(): ResponseEntity<List<BibliotecarioDTO>>
+}
+class BibliotecarioService {
+  - bibliotecarioRepository: BibliotecarioRepository
+  - prestamoRepository: PrestamoRepository
+  - lectorRepository: LectorRepository
+  - mapToDTO(Bibliotecario, BibliotecarioDTO): BibliotecarioDTO
+  - mapToEntity(BibliotecarioDTO, Bibliotecario): Bibliotecario
+  + create(BibliotecarioDTO): Long
+  + update(Long, BibliotecarioDTO): void
+  + getReferencedWarning(Long): String
+  + get(Long): BibliotecarioDTO
+  + lectorExists(Long): boolean
+  + findAll(): List<BibliotecarioDTO>
+  + delete(Long): void
+}
+class BibliotecatinautApplication {
+  + main(String[]): void
+}
+class ControllerConfig {
+  ~ initBinder(WebDataBinder): void
+}
+class CustomCollectors {
+  + toSortedMap(Function<T, K>, Function<T, U>): Collector<T, ?, Map<K, U>>
+}
+class DomainConfig {
+  + dateTimeProvider(): DateTimeProvider
+}
+class ErrorResponse {
+  - httpStatus: Integer
+  - message: String
+  - exception: String
+  - fieldErrors: List<FieldError>
+  + getHttpStatus(): Integer
+  + getException(): String
+  + getMessage(): String
+  + getFieldErrors(): List<FieldError>
+  + setHttpStatus(Integer): void
+  + setException(String): void
+  + setMessage(String): void
+  + setFieldErrors(List<FieldError>): void
+}
+enum Estado << enumeration >> {
+  + OBSOLETO: 
+  + PRESTADO: 
+  + DISPONIBLE: 
+  + DANADO: 
+  + values(): Estado[]
+  + valueOf(String): Estado
+}
+class FieldError {
+  - errorCode: String
+  - field: String
+  + getField(): String
+  + getErrorCode(): String
+  + setField(String): void
+  + setErrorCode(String): void
+}
+class HomeController {
+  + index(): String
+}
+class HtmxErrorController {
+  - basicErrorController: BasicErrorController
+  + errorHtmx(HttpServletRequest, HttpServletResponse): ModelAndView
+}
+class JacksonConfig {
+  + jacksonCustomizer(): Jackson2ObjectMapperBuilderCustomizer
+}
+class Lector {
+  - nombre: String
+  - lectorPrestamoes: Set<Prestamo>
+  - apellido: String
+  - id: Long
+  - lastUpdated: OffsetDateTime
+  - dateCreated: OffsetDateTime
+  - dni: String
+  + getLectorPrestamoes(): Set<Prestamo>
+  + getId(): Long
+  + getNombre(): String
+  + setDateCreated(OffsetDateTime): void
+  + getApellido(): String
+  + getDni(): String
+  + getDateCreated(): OffsetDateTime
+  + getLastUpdated(): OffsetDateTime
+  + setId(Long): void
+  + setLastUpdated(OffsetDateTime): void
+  + setNombre(String): void
+  + setApellido(String): void
+  + setDni(String): void
+  + setLectorPrestamoes(Set<Prestamo>): void
+}
+class LectorController {
+  - lectorService: LectorService
+  + delete(Long, RedirectAttributes): String
+  + list(Model): String
+  + edit(Long, Model): String
+  + add(LectorDTO): String
+  + add(LectorDTO, BindingResult, RedirectAttributes): String
+  + edit(Long, LectorDTO, BindingResult, RedirectAttributes): String
+}
+class LectorDTO {
+  - id: Long
+  - apellido: String
+  - dni: String
+  - nombre: String
+  + getId(): Long
+  + getNombre(): String
+  + getApellido(): String
+  + getDni(): String
+  + setId(Long): void
+  + setNombre(String): void
+  + setApellido(String): void
+  + setDni(String): void
+}
+interface LectorRepository << interface >>
+class LectorResource {
+  - lectorService: LectorService
+  + getAllLectors(): ResponseEntity<List<LectorDTO>>
+  + createLector(LectorDTO): ResponseEntity<Long>
+  + updateLector(Long, LectorDTO): ResponseEntity<Long>
+  + getLector(Long): ResponseEntity<LectorDTO>
+  + deleteLector(Long): ResponseEntity<Void>
+}
+class LectorService {
+  - prestamoRepository: PrestamoRepository
+  - lectorRepository: LectorRepository
+  - bibliotecarioRepository: BibliotecarioRepository
+  + get(Long): LectorDTO
+  - mapToDTO(Lector, LectorDTO): LectorDTO
+  + getReferencedWarning(Long): String
+  + delete(Long): void
+  + findAll(): List<LectorDTO>
+  + update(Long, LectorDTO): void
+  + create(LectorDTO): Long
+  - mapToEntity(LectorDTO, Lector): Lector
+}
+class Libro {
+  - lastUpdated: OffsetDateTime
+  - dateCreated: OffsetDateTime
+  - estado: Estado
+  - titulo: String
+  - autor: String
+  - libroPrestamoes: Set<Prestamo>
+  - id: Long
+  + getTitulo(): String
+  + getId(): Long
+  + setLibroPrestamoes(Set<Prestamo>): void
+  + getAutor(): String
+  + getEstado(): Estado
+  + setDateCreated(OffsetDateTime): void
+  + getLibroPrestamoes(): Set<Prestamo>
+  + getDateCreated(): OffsetDateTime
+  + setLastUpdated(OffsetDateTime): void
+  + getLastUpdated(): OffsetDateTime
+  + setId(Long): void
+  + setTitulo(String): void
+  + setAutor(String): void
+  + setEstado(Estado): void
+}
+class LibroController {
+  - libroService: LibroService
+  + delete(Long, RedirectAttributes): String
+  + edit(Long, LibroDTO, BindingResult, RedirectAttributes): String
+  + add(LibroDTO): String
+  + add(LibroDTO, BindingResult, RedirectAttributes): String
+  + list(Model): String
+  + edit(Long, Model): String
+  + prepareContext(Model): void
+}
+class LibroDTO {
+  - id: Long
+  - autor: String
+  - estado: Estado
+  - titulo: String
+  + getId(): Long
+  + getTitulo(): String
+  + getAutor(): String
+  + getEstado(): Estado
+  + setId(Long): void
+  + setTitulo(String): void
+  + setAutor(String): void
+  + setEstado(Estado): void
+}
+interface LibroRepository << interface >>
+class LibroResource {
+  - libroService: LibroService
+  + createLibro(LibroDTO): ResponseEntity<Long>
+  + updateLibro(Long, LibroDTO): ResponseEntity<Long>
+  + getAllLibros(): ResponseEntity<List<LibroDTO>>
+  + getLibro(Long): ResponseEntity<LibroDTO>
+  + deleteLibro(Long): ResponseEntity<Void>
+}
+class LibroService {
+  - prestamoRepository: PrestamoRepository
+  - libroRepository: LibroRepository
+  + update(Long, LibroDTO): void
+  + delete(Long): void
+  + getReferencedWarning(Long): String
+  - mapToDTO(Libro, LibroDTO): LibroDTO
+  + create(LibroDTO): Long
+  + get(Long): LibroDTO
+  + findAll(): List<LibroDTO>
+  - mapToEntity(LibroDTO, Libro): Libro
+}
+class LocalDevConfig
+class NotFoundException
+class Prestamo {
+  - lector: Lector
+  - id: Long
+  - bibliotecario: Bibliotecario
+  - fechaDevolucion: LocalDate
+  - dateCreated: OffsetDateTime
+  - fechaPrestamo: LocalDate
+  - libro: Libro
+  - lastUpdated: OffsetDateTime
+  + getDateCreated(): OffsetDateTime
+  + getFechaPrestamo(): LocalDate
+  + getId(): Long
+  + getFechaDevolucion(): LocalDate
+  + setLibro(Libro): void
+  + setLastUpdated(OffsetDateTime): void
+  + setFechaDevolucion(LocalDate): void
+  + setLector(Lector): void
+  + getLibro(): Libro
+  + getLector(): Lector
+  + getBibliotecario(): Bibliotecario
+  + getLastUpdated(): OffsetDateTime
+  + setBibliotecario(Bibliotecario): void
+  + setDateCreated(OffsetDateTime): void
+  + setId(Long): void
+  + setFechaPrestamo(LocalDate): void
+}
+class PrestamoController {
+  - prestamoService: PrestamoService
+  - libroRepository: LibroRepository
+  - lectorRepository: LectorRepository
+  - bibliotecarioRepository: BibliotecarioRepository
+  + edit(Long, PrestamoDTO, BindingResult, RedirectAttributes): String
+  + delete(Long, RedirectAttributes): String
+  + add(PrestamoDTO): String
+  + add(PrestamoDTO, BindingResult, RedirectAttributes): String
+  + prepareContext(Model): void
+  + edit(Long, Model): String
+  + list(Model): String
+}
+class PrestamoDTO {
+  - libro: Long
+  - lector: Long
+  - id: Long
+  - bibliotecario: Long
+  - fechaPrestamo: LocalDate
+  - fechaDevolucion: LocalDate
+  + setId(Long): void
+  + getId(): Long
+  + getFechaPrestamo(): LocalDate
+  + getFechaDevolucion(): LocalDate
+  + getLibro(): Long
+  + getLector(): Long
+  + getBibliotecario(): Long
+  + setFechaPrestamo(LocalDate): void
+  + setFechaDevolucion(LocalDate): void
+  + setLibro(Long): void
+  + setLector(Long): void
+  + setBibliotecario(Long): void
+}
+interface PrestamoRepository << interface >> {
+  + findFirstByLibro(Libro): Prestamo
+  + findFirstByBibliotecario(Bibliotecario): Prestamo
+  + findFirstByLector(Lector): Prestamo
+}
+class PrestamoResource {
+  - prestamoService: PrestamoService
+  + getAllPrestamos(): ResponseEntity<List<PrestamoDTO>>
+  + getPrestamo(Long): ResponseEntity<PrestamoDTO>
+  + createPrestamo(PrestamoDTO): ResponseEntity<Long>
+  + deletePrestamo(Long): ResponseEntity<Void>
+  + updatePrestamo(Long, PrestamoDTO): ResponseEntity<Long>
+}
+class PrestamoService {
+  - bibliotecarioRepository: BibliotecarioRepository
+  - prestamoRepository: PrestamoRepository
+  - lectorRepository: LectorRepository
+  - libroRepository: LibroRepository
+  + get(Long): PrestamoDTO
+  + update(Long, PrestamoDTO): void
+  + findAll(): List<PrestamoDTO>
+  + create(PrestamoDTO): Long
+  - mapToDTO(Prestamo, PrestamoDTO): PrestamoDTO
+  - mapToEntity(PrestamoDTO, Prestamo): Prestamo
+  + delete(Long): void
+}
+class RestExceptionHandler {
+  + handleMethodArgumentNotValid(MethodArgumentNotValidException): ResponseEntity<ErrorResponse>
+  + handleThrowable(Throwable): ResponseEntity<ErrorResponse>
+  + handleResponseStatus(ResponseStatusException): ResponseEntity<ErrorResponse>
+  + handleNotFound(NotFoundException): ResponseEntity<ErrorResponse>
+}
+class WebAdvice {
+  + getIsDevserver(HttpServletRequest): Boolean
+  + getRequestUri(HttpServletRequest): String
+}
+class WebUtils {
+  + MSG_INFO: String
+  + MSG_ERROR: String
+  - messageSource: MessageSource
+  + MSG_SUCCESS: String
+  - localeResolver: LocaleResolver
+  + getMessage(String, Object[]): String
+  + getRequest(): HttpServletRequest
+  + isRequiredField(Object, String): boolean
+}
+
+Bibliotecario               "1" *-[#595959,plain]-> "lector\n1" Lector                      
+Bibliotecario               "1" *-[#595959,plain]-> "prestamos\n*" Prestamo                    
+BibliotecarioController     "1" *-[#595959,plain]-> "bibliotecarioService\n1" BibliotecarioService        
+BibliotecarioController     "1" *-[#595959,plain]-> "lectorRepository\n1" LectorRepository            
+BibliotecarioResource       "1" *-[#595959,plain]-> "bibliotecarioService\n1" BibliotecarioService        
+BibliotecarioService         -[#595959,dashed]->  Bibliotecario               : "«create»"
+BibliotecarioService         -[#595959,dashed]->  BibliotecarioDTO            : "«create»"
+BibliotecarioService        "1" *-[#595959,plain]-> "bibliotecarioRepository\n1" BibliotecarioRepository     
+BibliotecarioService        "1" *-[#595959,plain]-> "lectorRepository\n1" LectorRepository            
+BibliotecarioService         -[#595959,dashed]->  NotFoundException           : "«create»"
+BibliotecarioService        "1" *-[#595959,plain]-> "prestamoRepository\n1" PrestamoRepository          
+ErrorResponse               "1" *-[#595959,plain]-> "fieldErrors\n*" FieldError                  
+Lector                      "1" *-[#595959,plain]-> "lectorPrestamoes\n*" Prestamo                    
+LectorController            "1" *-[#595959,plain]-> "lectorService\n1" LectorService               
+LectorResource              "1" *-[#595959,plain]-> "lectorService\n1" LectorService               
+LectorService               "1" *-[#595959,plain]-> "bibliotecarioRepository\n1" BibliotecarioRepository     
+LectorService                -[#595959,dashed]->  Lector                      : "«create»"
+LectorService                -[#595959,dashed]->  LectorDTO                   : "«create»"
+LectorService               "1" *-[#595959,plain]-> "lectorRepository\n1" LectorRepository            
+LectorService               "1" *-[#595959,plain]-> "prestamoRepository\n1" PrestamoRepository          
+Libro                       "1" *-[#595959,plain]-> "estado\n1" Estado                      
+Libro                       "1" *-[#595959,plain]-> "libroPrestamoes\n*" Prestamo                    
+LibroController             "1" *-[#595959,plain]-> "libroService\n1" LibroService                
+LibroDTO                    "1" *-[#595959,plain]-> "estado\n1" Estado                      
+LibroResource               "1" *-[#595959,plain]-> "libroService\n1" LibroService                
+LibroService                 -[#595959,dashed]->  Libro                       : "«create»"
+LibroService                 -[#595959,dashed]->  LibroDTO                    : "«create»"
+LibroService                "1" *-[#595959,plain]-> "libroRepository\n1" LibroRepository             
+LibroService                "1" *-[#595959,plain]-> "prestamoRepository\n1" PrestamoRepository          
+Prestamo                    "1" *-[#595959,plain]-> "bibliotecario\n1" Bibliotecario               
+Prestamo                    "1" *-[#595959,plain]-> "lector\n1" Lector                      
+Prestamo                    "1" *-[#595959,plain]-> "libro\n1" Libro                       
+PrestamoController          "1" *-[#595959,plain]-> "bibliotecarioRepository\n1" BibliotecarioRepository     
+PrestamoController          "1" *-[#595959,plain]-> "lectorRepository\n1" LectorRepository            
+PrestamoController          "1" *-[#595959,plain]-> "libroRepository\n1" LibroRepository             
+PrestamoController          "1" *-[#595959,plain]-> "prestamoService\n1" PrestamoService             
+PrestamoResource            "1" *-[#595959,plain]-> "prestamoService\n1" PrestamoService             
+PrestamoService             "1" *-[#595959,plain]-> "bibliotecarioRepository\n1" BibliotecarioRepository     
+PrestamoService             "1" *-[#595959,plain]-> "lectorRepository\n1" LectorRepository            
+PrestamoService             "1" *-[#595959,plain]-> "libroRepository\n1" LibroRepository             
+PrestamoService              -[#595959,dashed]->  NotFoundException           : "«create»"
+PrestamoService              -[#595959,dashed]->  Prestamo                    : "«create»"
+PrestamoService              -[#595959,dashed]->  PrestamoDTO                 : "«create»"
+PrestamoService             "1" *-[#595959,plain]-> "prestamoRepository\n1" PrestamoRepository          
+RestExceptionHandler         -[#595959,dashed]->  ErrorResponse               : "«create»"
+RestExceptionHandler         -[#595959,dashed]->  FieldError                  : "«create»"
+@enduml
