@@ -1,7 +1,17 @@
-# Bibliotecatinaut
+# Biblioteca de Tinaut
+### Vista
 
-This app was created with Bootify.io - tips on working with the code [can be found here](https://bootify.io/next-steps/).
-Feel free to contact us for further questions.
+<img width="718" alt="index" src="https://github.com/davidtinamart/davidtinaut_Biblioteca/assets/113375951/eec754b2-bc61-442f-b20b-71e8765c4351">
+
+### Docker Config BBDD
+
+<img width="288" alt="dockercompose" src="https://github.com/davidtinamart/davidtinaut_Biblioteca/assets/113375951/c70483d9-28ec-4204-9618-3629bf198e20">
+
+### Docker Contenedor BBDD
+
+<img width="709" alt="bbdddocker" src="https://github.com/davidtinamart/davidtinaut_Biblioteca/assets/113375951/aaca2d51-d129-449d-92cd-1971c19958a7">
+
+
 
 ## Development
 
